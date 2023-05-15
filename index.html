@@ -1,0 +1,664 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+
+    <title>64 Karelik Oyun Haritası</title>
+    <style>
+
+/*skor ve oyun aynı yerde olması için*/
+#gameandscore {
+  position: fixed;
+  top: 20;
+  left: 20%;
+  transform: translateX(50%);
+
+}
+/* oyun tablosu renkleri  */
+#game {  
+  border: 2px solid black;
+  width: 80%;
+  height: 80%;
+  background-color: white;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+}
+
+/*skor tablosu */
+#scoreboard {
+  border-collapse: collapse;
+  height: 80%;
+  width: 80%;
+  margin: 130 auto;
+}
+
+#scoreboard th, #scoreboard td {
+  padding: 10px;
+  text-align: center;
+}
+
+#scoreboard th {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#player1-name, #player2-name {
+  font-size: 40px;
+}
+
+#player1-score, #player2-score {
+  font-size: 48px;
+}
+
+#player1-row {
+  background-color: #f2f3f1;
+}
+
+#player2-row {
+  background-color: #e5e7ff;
+}
+
+#scoreboard td:first-child {
+  font-weight: bold;
+}
+
+#scoreboard td:last-child {
+  font-weight: bold;
+}
+
+#scoreboard tr:not(:first-child) {
+  border-top: 1px solid #ddd;
+}
+
+#scoreboard tr:last-child {
+  border-bottom: 1px solid #ddd;
+}
+
+#scoreboard tr:hover {
+  background-color: #f5f5f5;
+}
+/* Kuralları anlatan yazını nkonumu */
+#rules {
+  position: fixed;
+  left: 50px;
+  bottom: 0;
+}
+
+#rules {
+  position: absolute;
+  top: 40%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+  max-width: 20em;
+  text-align: left;
+  font-size: 1.2em;
+  line-height: 1.5;
+}
+
+#rules li {
+  margin-bottom: 0.5em;
+}
+
+    </style>
+  </head>
+  <body>
+
+    <div id="rules">
+      <h2>Oyun Kuralları</h2>
+      <ul>
+        <!-- Oyun Kurallari. -->
+
+        <li>Gitmek istediğiniz yöne basınız ve sorulari cevaplayiniz</li>
+        <li>Doğru cevaplar 10 puandir</li>
+        <li>Kırmızı karelerden çıkarken 2 soru ard arda sorulur</li>
+        <li>beyaz karelerde 1 soru sorulur</li>
+        <li>siyah karelerde 3 ihtimal vardir</li>
+        <li>-2 adım hareket etme hakkı 1 harekette soru sorulmaz.2.harekette soru sorulur.</li>
+        <li>-bir adım hareket hakkı ve 20 puan</li>
+        <li>-sadece hareket hakkı</li>
+        <li>Soru cevapları tek kelimedir</li>
+        <li>Yeşil pul yeşil kareye mavi pul mavi kareye gidildiğinde oyun biter.</li>
+      <li>hedefe ulaşan 50 puan kazanır hedefe ulaşıldıgında OYUN BİTER</li>
+        
+      </ul>
+    </div>
+    
+
+  
+
+<!-- skor tahtası olusturulur. -->
+
+    <div id="gameandscore">
+      
+      <table id="scoreboard">
+        <thead>
+          <tr>
+            <th>Kullanıcı</th>
+            <th>Skor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr id="player1-row">
+            <td id="player1-name"></td>
+            <td id="player1-score">0</td>
+          </tr>
+          <tr id="player2-row">
+            <td id="player2-name"></td>
+            <td id="player2-score">0</td>
+          </tr>
+        </tbody>
+      </table>
+      <br>
+      <br>
+
+  <canvas id="game" width="630" height="630"></canvas>
+
+    <script>
+        const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+let [lastRow, lastCol] = [0,0];
+let player1Score = 0;
+let player2Score = 0;
+
+// oyuncular 0 PUAN ile başlatılır
+
+// skoru güncellemek için bir fonksiyon olusturuldu
+//html ile olusturulan tablodaki değerler güncelleniyor
+function updateScoreboard(player1Name, player1Score, player2Name, player2Score) {
+  document.getElementById('player1-name').textContent = player1Name;
+  document.getElementById('player1-score').textContent = player1Score;
+  document.getElementById('player2-name').textContent = player2Name;
+  document.getElementById('player2-score').textContent = player2Score;
+}
+let player1Name = prompt('1. oyuncunun adı:');
+let player2Name = prompt('2. oyuncunun adı:');
+
+updateScoreboard(player1Name, 0, player2Name, 0);
+
+
+
+
+function endplay()//oyunun bitmesi için gerekli olan konuma geldikten sonra kullanmak
+                  //oyunu yeniden başlatmak için
+                  //bir tuşa basıldıgında kazanana oyuncu ekrana basılır ve sayfa yenilenerek oyun yeniden başlanmasını sağlar
+                  
+ {
+  document.addEventListener("keydown", function(event) {
+    location.reload();
+    
+  if (player1Score > player2Score) {
+    player1Score-=50;
+    // iki kere çalıstığı görüldüğü için 2 sefer 50 ekliyor skorlara o yüzden 50'yi geri çıkardım
+
+    alert(player1Name + ' ' + player1Score  + ' puanla kazandi');
+    location.reload();
+
+  } else if (player2Score > player1Score) {
+    player2Score-=50;
+    alert(player2Name + ' ' + player2Score + ' puanla kazandi');
+    location.reload();
+
+  } else {
+    alert('Berabere!');
+    location.reload();
+
+  }
+
+  });
+ }
+
+
+function play() {
+  
+
+  // Player1'in skorunu 10 puan artır
+  if (currentPlayer === Player1) {
+    player1Score += 10;
+  }
+
+  // Player2'in skorunu 10 puan artır
+  else{
+    player2Score += 10;
+  }
+
+  // Skorları güncelle
+  updateScoreboard(player1Name, player1Score, player2Name, player2Score);
+}
+
+
+
+
+
+const SIZE = 8;  // 8x8 tahta  için
+const SQUARE_SIZE = 80;  // Her karenin boyutu
+// Her sütunda ve satırda kaç adet kırmızı kare olduğunu tutan dizi aynısını siyah kareler içinde yapildi
+// yan yana üst üste sihay kırmızı kare ile tahta olusması engellenmesi için kullanılacak
+let redCountByCol = new Array(SIZE).fill(0);
+let redCountByRow = new Array(SIZE).fill(0);
+let bCountByCol = new Array(SIZE).fill(0);
+let bCountByRow = new Array(SIZE).fill(0);
+
+
+
+
+// Kullanıcıların hareketi için klavyeden basılan yönü algılıyor ve move player fonskiyonuna ona göre gönderiyor.
+document.addEventListener('keydown', (event) => {
+  if (event.code === 'ArrowUp') {
+    movePlayer('up');
+  } else if (event.code === 'ArrowDown') {
+    movePlayer('down');
+  } else if (event.code === 'ArrowLeft') {
+    movePlayer('left');
+  } else if (event.code === 'ArrowRight') {
+    movePlayer('right');
+  }
+  drawBoard();
+});
+const Player1 = {
+  // oyuncu 1 rengi baslangıc konumu ,şekli ve canvas özellikleri tanımlamnıyor.
+  color: 'green',
+  position: [0, 0],
+  draw: function() {
+    let [row, col] = this.position;
+    let x = col * SQUARE_SIZE + SQUARE_SIZE/2; // Topun x koordinatı
+    let y = row * SQUARE_SIZE + SQUARE_SIZE/2; // Topun y koordinatı
+    const radius = SQUARE_SIZE/3; // Topun yarıçapı
+    ctx.beginPath();
+    ctx.fillStyle = this.color;
+    ctx.arc(x, y, radius, 0, Math.PI*2);
+    ctx.fill();
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  }
+};
+
+
+
+  // player 2 tanımlanıyor
+const Player2 = {
+    color: 'blue',
+    position: [SIZE - 1, SIZE - 1],
+    draw: function() {
+      let [row2, col2] = this.position;
+      let x = col2 * SQUARE_SIZE + SQUARE_SIZE/2; // Topun x koordinatı
+      let y = row2 * SQUARE_SIZE + SQUARE_SIZE/2; // Topun y koordinatı
+      const radius = SQUARE_SIZE/3; // Topun yarıçapı
+      ctx.beginPath();
+      ctx.fillStyle = this.color;
+      ctx.arc(x, y, radius, 0, Math.PI*2);
+      ctx.fill();
+      ctx.strokeStyle = 'black';
+      ctx.lineWidth = 1;
+      ctx.stroke();
+    }
+};
+
+// Kullanıcıları tahtada   çizme fonksiyonu
+function drawUsers() {
+  let [row, col] = Player1.position;
+  ctx.clearRect(row, col, SQUARE_SIZE, SQUARE_SIZE);
+  Player1.draw();
+  Player2.draw(); 
+
+ 
+
+
+}
+
+
+// Başlangıçta oyun sırası 1. oyuncuda olsun
+let currentPlayer = Player1;
+
+function switchPlayer() {
+ 
+  // sıra gelen kullanıcıyı belirlemek içindir
+  //şimdiki oyuncu hangisi ise diğer oyuncuya geçiriyor.
+  currentPlayer = (currentPlayer === Player1) ? Player2 : Player1;
+  document.body.style.backgroundColor = currentPlayer.color;
+
+}
+
+
+let boardColors = new Array(SIZE);// tagradaki renkleri tutmak için bir dizi olusturuldu
+for (let i = 0; i < SIZE; i++) {
+  boardColors[i] = new Array(SIZE).fill('');// elemanlarına '' atandı
+}
+const tahta = [];
+
+// Tahtayı çizme fonksiyonu
+function tahtayiolustur() {
+  for (let row = 0; row < SIZE; row++) {
+    let blackCount = 0;  // Her satırda siyah kare sayısını takip ediyoruz
+    const tahtaSatir = [];
+
+
+    for (let col = 0; col < SIZE; col++) {
+      
+
+    
+// kare boyutu ile noktalar çarpılarak bir adımda tam kare kadar hareket etmes, sağlandi
+      const x = col * SQUARE_SIZE;
+      const y = row * SQUARE_SIZE;
+      
+     
+      if ((row === 0 && col === 0) || (row === SIZE - 1 && col === SIZE - 1)) {
+        ctx.fillStyle = 'white';
+      } 
+      
+      else {
+        // Rastgele renk seçmek için Math.random() kullanın
+        const random = Math.random();
+        let color;
+        if (random < 0.53 && redCountByCol[col] === 0 && redCountByRow[row] === 0) {
+          //kırmızı renkler rastgele sayida ama düzenli şekilde  olusturuldu
+          color = 'red';
+          redCountByCol[col]++;
+          redCountByRow[row]++;
+        } else if (random < 0.73 && bCountByCol[col] === 0 && bCountByRow[row] === 0 && col) {
+          color = 'black';
+          // siyah renkler rastgele sayıda ve düenli şekilde olusturuldu
+          bCountByCol[col]++; 
+          bCountByRow[row]++;
+        } else {
+          color = 'white';
+        }
+
+        ctx.fillStyle = color;//kareler renklendirildi
+        ctx.fillRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+
+      //  Kenarlığı çizmek için strokeStyle ve lineWidth özelliklerini kullanındı
+        ctx.strokeStyle = 'black';
+        ctx.lineWidth = 1;
+        ctx.strokeRect(x, y, SQUARE_SIZE, SQUARE_SIZE);
+        
+
+        boardColors[row][col] = color;
+    // olusturulan tahta renkleri tutuldu
+
+        
+      }
+  
+    }
+
+
+  }
+}
+
+
+
+
+
+
+
+
+
+
+function askQuestion() {
+  // kullanıcılara sorulacak sorular hazırlandı  
+  const questions = [
+    {
+      question: "İstanbul'un tarihi yarımadasında yer alan ve 'cennet bahçesi' anlamına gelen sarayın adı nedir?",
+      answer: "Topkapı"
+    },
+    {
+      question: "İlk Nobel Fizik Ödülü'nü kazanan bilim insanı kimdir?",
+      answer: "Wilhelm Conrad Röntgen"
+    },
+    {
+      question: "Çılgın Hırsız (Despicable Me) filmindeki Minyonlar hangi renktir?",
+      answer: "Sarı"
+    },
+    {
+      question: "Hangi yıl Türkiye Cumhuriyeti kurulmuştur?",
+      answer: "1923"
+    },
+    {
+      question: "Dünya'nın en uzun nehri hangisidir?",
+      answer: "Nil"
+    },
+    {
+      question: "Türkiye'nin en yüksek dağı hangisidir?",
+      answer: "Ağrı"
+    },
+
+    {
+      question: "Harry Potter serisinde Hermione Granger'ı canlandıran oyuncunun adi nedir?",
+      answer: "Emma"
+    },
+    {
+      question: "Nobel ödüllü yazar Gabriel Garcia Marquez hangi ülkeden gelir?",
+      answer: "Kolombiya"
+    },
+    {
+      question: "Türkiye'nin başkenti neresidir?",
+      answer: "Ankara"
+    },
+    {
+      question: "İspanya'nın ünlü ressamı Pablo Picasso hangi sanat akımının öncüsüdür?",
+      answer: "Kubizm"
+    },
+    {
+      question: "Amerika Birleşik Devletleri'nin en yüksek dağı hangisidir?",
+      answer: "Denali"
+    },
+    {
+      question: "Hangi gezegen Güneş Sistemi'mizdeki en büyük gezegendir?",
+      answer: "Jüpiter"
+    },
+
+  ];
+
+  const randomIndex = Math.floor(Math.random() * questions.length);
+  //rastgele bir soru sorulması sağlandı
+  const selectedQuestion = questions[randomIndex];
+  console.log(selectedQuestion.question);
+  const userAnswer = prompt(selectedQuestion.question);
+  //soru cevabı userAnswera atandı
+  //cevap kontrol edilerek doğru veya yanlıs cevap oldugu karar verilecek puan verilecektir
+  if (userAnswer.toLowerCase() === selectedQuestion.answer.toLowerCase()) {
+    console.log("Doğru cevap!");// consala soru dogru ise yazıldı ve pua eklendi
+    play();
+  } else {
+    console.log(`Yanlış cevap. Doğru cevap: ${selectedQuestion.answer}`);
+  }
+  questions.splice(randomIndex, 1); // Seçilen soruyu listeden kaldır
+}
+
+
+
+function movePlayer(dir) {// karakter hareket ettirilir
+  
+// önce su anki kullanıcın kim olduguna karar verilir
+  
+if(currentPlayer === Player1){
+  
+ const [row, col] = Player1.position;
+ console.log(Player1.position);
+// kullanıcı pozisyonu alınır klavyeden gelen hareket yönğne göre
+//eski konum newRow a atanır klaveyden gelen komuta göre newRow güncellenir
+  let newRow = row;
+  let newCol = col;
+  if (dir === 'up') {
+    newRow--;
+  } else if (dir === 'down') {
+    newRow++;
+  } else if (dir === 'left') {
+    newCol--;
+  } else if (dir === 'right') {
+    newCol++;
+  }
+// 7,7 noktasında oyun biteceği için kontrol sağlanır 
+  if(newRow === 7 && newCol === 7){
+
+    
+//noktaya varan oyuncuya 40 puan artı play fonksiyonundan 10 puan verilir ve sayfa yenilenmesi sağlanır 
+      player1Score += 40;
+      play();
+      endplay();
+    Location.reload();
+  
+  }
+  if (newRow >= 0 && newRow < SIZE && newCol >= 0 && newCol < SIZE) {
+   
+    let [row, col] = Player1.position;
+   
+    //canvas yardımı ile kullanucu hareket ettikten sonra 
+    //yeni konumu çizilir ve eski konumundan kaldırılır ve eski düzebne tekrardan dönüştürülür.
+    ctx.clearRect(col* SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+    ctx.fillStyle = boardColors[row][col];
+    ctx.fillRect(col* SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+    ctx.strokeStyle = 'black';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(col* SQUARE_SIZE, row * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+    Player1.position=[newRow, newCol];
+
+    Player1.draw(); 
+    if (row === 0 && col === 0) {
+      //oyuncu Baslarken 1 soru sorulur ve diğer kullanıcya geçer
+      askQuestion();
+      switchPlayer();
+     }
+
+// geldiği karenin rengine kontrol edilir
+//renge göre farkli işlemler uygulanır
+//yukarıda tanımlanan fonksiyonların bir çoğu burada kullanılır
+if (boardColors[row][col] === "white") {
+      
+
+      askQuestion();
+     
+      switchPlayer();
+    } else if (boardColors[row][col] === "red") {
+  ;
+  
+     askQuestion();
+  
+     askQuestion();  
+      switchPlayer();
+    } else if (boardColors[row][col] === "black") {
+      let random = Math.random();
+      if (random < 0.20) {
+        switchPlayer();
+      } else if (random < 0.4) {
+      play();
+      play();
+      
+      switchPlayer();  
+      } else {
+       
+
+      }
+    } else {
+
+}
+}
+}
+
+
+else if(currentPlayer === Player2){
+// şimdiki oyuncunun 2. oyuncu mu oldugu kontrol edilir ve 1. oyuncu için yapılan işlemler aynı şekilde 2. oyuncu için yapılırs
+  const [row2, col2] = Player2.position;
+  console.log(Player2.position);
+ 
+   let newRow2 = row2;
+   let newCol2 = col2;
+
+
+
+
+    
+   if (dir === 'up') {
+     newRow2--;
+   } else if (dir === 'down') {
+     newRow2++;
+   } else if (dir === 'left') {
+     newCol2--;
+   } else if (dir === 'right') {
+     newCol2++;
+   }
+   if(newRow2 === 0 && newCol2 === 0){
+    let kontrol =0;
+      if(kontrol === 0){
+        player2Score += 40;
+        kontrol++;
+        play();
+        endplay();
+        Location.reload();
+      }
+     
+      Location.reload();
+
+    
+  }
+
+   if (newRow2 >= 0 && newRow2 < SIZE && newCol2 >= 0 && newCol2 < SIZE) {
+     console.log( Player2.position)
+     
+     let [row2, col2] = Player2.position;
+     console.log( row2);
+ 
+     ctx.clearRect(col2* SQUARE_SIZE, row2 * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+     ctx.fillStyle = boardColors[row2][col2];
+     ctx.fillRect(col2* SQUARE_SIZE, row2 * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+     ctx.strokeStyle = 'black';
+     ctx.lineWidth = 1;
+     ctx.strokeRect(col2* SQUARE_SIZE, row2 * SQUARE_SIZE, SQUARE_SIZE, SQUARE_SIZE);
+     Player2.position=[newRow2, newCol2];
+ 
+     Player2.draw(); 
+   
+     if (row2 === 7 && col2 === 7) {
+      askQuestion();
+      switchPlayer();
+     }
+ 
+     if (boardColors[row2][col2] === "white") {
+       
+          
+         askQuestion();
+         switchPlayer();
+          }
+      else if (boardColors[row2][col2] === "red") {
+   ;
+   
+      askQuestion();
+      askQuestion();  
+       switchPlayer();
+     } else if (boardColors[row2][col2] === "black") {
+      let random = Math.random();
+      if (random < 0.20) {
+        switchPlayer();
+      } else if (random < 0.4) {
+      play();
+      play();
+      
+      switchPlayer();  
+      } else {
+       
+
+      }
+}
+}
+}
+}
+
+
+
+
+
+
+
+function gameLoop() {
+  //oyun döngüsü 
+  tahtayiolustur();
+  drawUsers();
+
+
+}
+  
+  // Oyun döngüsünü başlatilir
+  window.requestAnimationFrame(gameLoop);
+    </script>
+
+  </body>
+</html>
