@@ -10,8 +10,8 @@
         Fakat tek amaç diğer köşeye gitmek değil aynı zamanda oyuncuların en yüksek puana ulaşmak için sorulara dogru cevap vermeleri gerekmektedir
         Oyun bir oyuncunun diğer oyuncunun başladığı noktaya geldiği anda sonlanmaktadır
         ![oyun sonu](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/mavip.png)
-        resimde gördüğünüz gibi mavi pullu oyuncu yukarı tuşuna bastıgı anda ilk hedefe varma ödülü olan puanı alır oyun biter
         
+        resimde gördüğünüz gibi mavi pullu oyuncu yukarı tuşuna bastıgı anda ilk hedefe varma ödülü olan puanı alır oyun biter
         Ekranda olan farklı renklerdeki karelerin özellikleri farklıdır
          Siyah karelerin 3 ihtimal vardir
            1Tuşun basıldığı konuma gider ve sıra rakibe gider 
@@ -22,6 +22,6 @@
         Her doğru cevap sorualra 10 puandır ve ilk bitiş karesine gelen oyuncu 50 puan kazanır.
         Bu yüzden sadece puan kazanmak veya önce hedefe varmak tek başına önemli değildir.
        Daha detayli bilgi için https://www.youtube.com/watch?v=nkFa50fWaiU bu videoya bakabilirsiniz
-  Kısaca  bu proje javascript,html ve css kullanılarak oluşturulan içinde heyecan,şans gibi faktörleri barindiran web bilgi yarışma oyunudur. 
+    Kısaca  bu proje javascript,html ve css kullanılarak oluşturulan içinde heyecan,şans gibi faktörleri barindiran web bilgi yarışma oyunudur. 
            
             
