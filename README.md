@@ -21,7 +21,8 @@
           Beyaz kareler tahtada en çok olan ve sadece 1 soru sorulan karelerdir
         Her doğru cevap sorualra 10 puandır ve ilk bitiş karesine gelen oyuncu 50 puan kazanır.
         Bu yüzden sadece puan kazanmak veya önce hedefe varmak tek başına önemli değildir.
-       Daha detayli bilgi için https://www.youtube.com/watch?v=nkFa50fWaiU bu videoya bakabilirsiniz
     Kısaca  bu proje javascript,html ve css kullanılarak oluşturulan içinde heyecan,şans gibi faktörleri barindiran web bilgi yarışma oyunudur. 
            
             
+
+   Daha detayli bilgi için https://www.youtube.com/watch?v=nkFa50fWaiU bu videoya bakabilirsiniz
