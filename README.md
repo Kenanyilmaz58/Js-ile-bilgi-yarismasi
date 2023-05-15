@@ -3,11 +3,9 @@
    birazda şans faktörü ve eğlenceli olması için strateji gerektiren bir web bilgi yarışması oyunudur.
 
    Nasıl oynanır?
-        ![1kullanıcı adını gierer](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/ba%C5%9Flangicp.png)
-        
+        ![1kullanıcı adını gierer](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/ba%C5%9Flangicp.png)        
         oyun sitesini açtığımızda böyle bir keran karşımıza çıkar.İlk önce kullanıcılar adlarını sirayla girer ve oyun ekranı açılır.
         ![oyun haritası başlangıç](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/oyunp.png)
-        
         Oyun ekranında 8*8 lik bir kare matris görüyoruz aslında bu karelerin bir kösesinde bir kullanıcı diğer kösesinde diğer kullanıcı bulunmaktadır
         Fakat tek amaç diğer köşeye gitmek değil aynı zamanda oyuncuların en yüksek puana ulaşmak için sorulara dogru cevap vermeleri gerekmektedir
         Oyun bir oyuncunun diğer oyuncunun başladığı noktaya geldiği anda sonlanmaktadır
