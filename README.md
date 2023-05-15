@@ -1,6 +1,8 @@
   # Js-ile-bilgi-yarismasi
    2 kişi ile oynanan , sorulara verilen doğru cevaplandıgında puan alarak oyuncuların ilk başlangıç noktasına rakibp oyuncu geldiğinde biten,
    birazda şans faktörü ve eğlenceli olması için strateji gerektiren bir web bilgi yarışması oyunudur.
+   
+   
       Nasıl oynanır?
         ![1kullanıcı adını gierer](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/ba%C5%9Flangicp.png)
         oyun sitesini açtığımızda böyle bir keran karşımıza çıkar.İlk önce kullanıcılar adlarını sirayla girer ve oyun ekranı açılır.
