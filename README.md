@@ -11,9 +11,10 @@
         Oyun bir oyuncunun diğer oyuncunun başladığı noktaya geldiği anda sonlanmaktadır
         ![oyun sonu](https://github.com/Kenanyilmaz58/Js-ile-bilgi-yarismasi/blob/main/mavip.png)
         resimde gördüğünüz gibi mavi pullu oyuncu yukarı tuşuna bastıgı anda ilk hedefe varma ödülü olan puanı alır oyun biter
+        
         Ekranda olan farklı renklerdeki karelerin özellikleri farklıdır
          Siyah karelerin 3 ihtimal vardir
-           1Tuşun basıldığı konuma gider ve sıra rakibe gider
+           1Tuşun basıldığı konuma gider ve sıra rakibe gider 
            2Tuşun basıldığı yere gider ve 20 puan kazanir
            3Tuşun basıldığu yere gider ve ardından sıra yeni gelmiş gibi oynama hakkı vardır.
           Kırmızı karelereden çıkarken 2 soru sorulur ard arda kullanıcıya 
